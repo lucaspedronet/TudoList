@@ -1,118 +1,163 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useState} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
   View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {TitleEvent} from './src/components/TitleEvent';
+import {Member} from './src/components/Member';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+export default function App() {
+  const [name, setName] = useState<string>(''); // Nome do participantes
+  const [members, setMembers] = useState<string[]>([]); // Lista de participantes
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  function handleSubmit() {
+    if (name.trim().length <= 0) {
+      return;
+    }
+
+    if (members.includes(name.trim())) {
+      return Alert.alert(
+        'Atenção',
+        'O participante: ' + name + ' já foi adicionado!',
+      );
+    }
+
+    setMembers(preState => [name, ...preState]);
+
+    setName('');
+  }
+
+  function onMemberDestroi(member: string) {
+    const newMembers = members.filter(m => m !== member);
+
+    setMembers(newMembers);
+  }
+
+  function handleRemoveMember(member: string) {
+    Alert.alert('Remover', 'Remover ' + member, [
+      {
+        text: 'Sim',
+        isPreferred: true,
+        onPress: () => {
+          onMemberDestroi(member);
+          console.log('removeu');
+        },
+      },
+      {
+        text: 'Não',
+        isPreferred: false,
+      },
+    ]);
+  }
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
+    <View style={styled.container}>
+      <TitleEvent
+        key={12}
+        subTitle="Sexta, 4 de Junho de 2023."
+        title="Jogos internos IFTO"
+      />
+      <View style={styled.containerInput}>
+        <TextInput
+          placeholder="Nome do participante"
+          placeholderTextColor="#6B6B6B"
+          style={styled.input}
+          onChangeText={setName}
+          value={name}
+        />
+
+        <TouchableOpacity style={styled.buttonAdd} onPress={handleSubmit}>
+          <Text style={styled.labelButton}>+</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text key={3} style={styled.titleMembers}>
+        Nome do evento
       </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+
+      {members.length > 0 ? (
+        members.map((name, index) => (
+          <Member
+            id={name + index}
+            name={name}
+            onRemove={() => handleRemoveMember(name)}
+          />
+        ))
+      ) : (
+        <Text key={4} style={styled.paragraph}>
+          Ninguém chegou no evento ainda? Adicione participantes a sua lista de
+          presença.
+        </Text>
+      )}
     </View>
   );
 }
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
+const styled = StyleSheet.create({
+  container: {
+    backgroundColor: '#131016',
+    flex: 1,
     paddingHorizontal: 24,
+    paddingVertical: 25,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  titleMembers: {
+    color: '#FDFCFE',
+    fontSize: 20,
+    lineHeight: 23.44,
+    fontWeight: '700',
+    marginTop: 42,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
+  paragraph: {
+    color: '#FDFCFE',
+    fontSize: 14,
+    lineHeight: 16.41,
+    fontWeight: '400',
+    marginTop: 42,
+    textAlign: 'center',
+  },
+  input: {
+    flex: 1,
+    height: 56,
+    borderRadius: 4,
+    backgroundColor: '#1F1E25',
+    color: '#FDFCFE',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    fontSize: 14,
+    lineHeight: 20,
     fontWeight: '400',
   },
-  highlight: {
-    fontWeight: '700',
+  containerInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 34,
+    gap: 7,
+  },
+  buttonAdd: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 56,
+    height: 56,
+    borderRadius: 4,
+    backgroundColor: '#31CF67',
+  },
+  buttonRemove: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 56,
+    height: 56,
+    borderRadius: 4,
+    backgroundColor: '#E23C44',
+  },
+  labelButton: {
+    color: '#fff',
+    fontSize: 24,
+    lineHeight: 24,
+    fontWeight: '400',
   },
 });
-
-export default App;
