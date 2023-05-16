@@ -1,15 +1,15 @@
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-type MemberProps = {
+type TaskProps = {
   id: string;
   name: string;
   onRemove: () => void;
 };
 
-export function Member({id, name, onRemove}: MemberProps) {
+export function Task({id, name, onRemove}: TaskProps) {
   return (
-    <View key={id} style={styled.member}>
-      <Text style={styled.memberLabel}>{name}</Text>
+    <View key={id} style={styled.task}>
+      <Text style={styled.taskLabel}>{name}</Text>
 
       <TouchableOpacity style={styled.buttonRemove} onPress={onRemove}>
         <Text style={styled.labelButton}>-</Text>
@@ -33,7 +33,7 @@ const styled = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '400',
   },
-  member: {
+  task: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -44,7 +44,7 @@ const styled = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#1F1E25',
   },
-  memberLabel: {
+  taskLabel: {
     color: '#fff',
     fontSize: 16,
     lineHeight: 18.75,

@@ -5,46 +5,46 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert,
+  Alert, 
 } from 'react-native';
 
 import {TitleEvent} from './src/components/TitleEvent';
-import {Member} from './src/components/Member';
+import {Task} from './src/components/Tasks';
 
 export default function App() {
-  const [name, setName] = useState<string>(''); // Nome do participantes
-  const [members, setMembers] = useState<string[]>([]); // Lista de participantes
+  const [name, setName] = useState<string>(''); // Nome da tarefa
+  const [tasks, setTasks] = useState<string[]>([]); // Lista de tarefas
 
   function handleSubmit() {
     if (name.trim().length <= 0) {
       return;
     }
 
-    if (members.includes(name.trim())) {
+    if (tasks.includes(name.trim())) {
       return Alert.alert(
         'Atenção',
-        'O participante: ' + name + ' já foi adicionado!',
+        'A Tarefa: ' + name + ' já foi adicionado!',
       );
     }
 
-    setMembers(preState => [name, ...preState]);
+    setTasks(preState => [name, ...preState]);
 
     setName('');
   }
 
-  function onMemberDestroi(member: string) {
-    const newMembers = members.filter(m => m !== member);
+  function onTaskDestroi(task: string) {
+    const newTasks = tasks.filter(m => m !== task);
 
-    setMembers(newMembers);
+    setTasks(newTasks);
   }
 
-  function handleRemoveMember(member: string) {
-    Alert.alert('Remover', 'Remover ' + member, [
+  function handleRemoveTask(task: string) {
+    Alert.alert('Remover', 'Remover ' + task, [
       {
         text: 'Sim',
         isPreferred: true,
         onPress: () => {
-          onMemberDestroi(member);
+          onTaskDestroi(task);
           console.log('removeu');
         },
       },
@@ -57,15 +57,16 @@ export default function App() {
 
   return (
     <View style={styled.container}>
-      <TitleEvent
-        key={12}
-        subTitle="Sexta, 4 de Junho de 2023."
-        title="Jogos internos IFTO"
+      
+        <TitleEvent
+        key={12}        
+        title="to"
+        subTitle="do"
       />
       <View style={styled.containerInput}>
         <TextInput
-          placeholder="Nome do participante"
-          placeholderTextColor="#6B6B6B"
+          placeholder="Adicione uma nova tarefa"
+          placeholderTextColor="#808080"
           style={styled.input}
           onChangeText={setName}
           value={name}
@@ -76,16 +77,16 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      <Text key={3} style={styled.titleMembers}>
+      <Text key={3} style={styled.titleTasks}>
         Nome do evento
       </Text>
 
-      {members.length > 0 ? (
-        members.map((name, index) => (
-          <Member
+      {tasks.length > 0 ? (
+        tasks.map((name, index) => (
+          <Task
             id={name + index}
             name={name}
-            onRemove={() => handleRemoveMember(name)}
+            onRemove={() => handleRemoveTask(name)}
           />
         ))
       ) : (
@@ -105,7 +106,7 @@ const styled = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 25,
   },
-  titleMembers: {
+  titleTasks: {
     color: '#FDFCFE',
     fontSize: 20,
     lineHeight: 23.44,
@@ -122,29 +123,36 @@ const styled = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 56,
-    borderRadius: 4,
+    height: 55,
+    width: 271,
+    borderRadius: 6,
     backgroundColor: '#1F1E25',
     color: '#FDFCFE',
     alignItems: 'center',
     paddingHorizontal: 16,
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 22.4,
     fontWeight: '400',
+    fontFamily: 'Inter',
   },
   containerInput: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 34,
-    gap: 7,
+    gap: 8,   
+
   },
   buttonAdd: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 56,
-    height: 56,
-    borderRadius: 4,
-    backgroundColor: '#31CF67',
+    flexDirection: 'row',
+    width: 52,
+    height: 52,
+    borderRadius: 6,
+    backgroundColor: '#1E6F9F',
+    gap: 8,
+    Top: 1,
+
   },
   buttonRemove: {
     alignItems: 'center',
@@ -155,8 +163,9 @@ const styled = StyleSheet.create({
     backgroundColor: '#E23C44',
   },
   labelButton: {
-    color: '#fff',
-    fontSize: 24,
+    color: '#F2F2F2',
+    position: 'absolute',  
+    fontSize: 18,
     lineHeight: 24,
     fontWeight: '400',
   },
