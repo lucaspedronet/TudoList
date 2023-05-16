@@ -1,4 +1,8 @@
 import React, {useState} from 'react';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer'
+import { faRocket } from '@fortawesome/free-solid-svg-icons/faRocket'
 import {
   Text,
   View,
@@ -54,6 +58,7 @@ export default function App() {
       },
     ]);
   }
+  
 
   return (
     <View style={styled.container}>
@@ -63,7 +68,7 @@ export default function App() {
         title="to"
         subTitle="do"
       />
-      <View style={styled.containerInput}>
+      <View style={styled.containerInput}><FontAwesomeIcon icon={faRocket} />
         <TextInput
           placeholder="Adicione uma nova tarefa"
           placeholderTextColor="#808080"
@@ -170,3 +175,4 @@ const styled = StyleSheet.create({
     fontWeight: '400',
   },
 });
+  
