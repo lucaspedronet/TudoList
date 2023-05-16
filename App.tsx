@@ -1,4 +1,8 @@
 import React, {useState} from 'react';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer'
+import { faRocket } from '@fortawesome/free-solid-svg-icons/faRocket'
 import {
   Text,
   View,
@@ -54,6 +58,7 @@ export default function App() {
       },
     ]);
   }
+  
 
   return (
     <View style={styled.container}>
@@ -62,7 +67,7 @@ export default function App() {
         subTitle="Sexta, 4 de Junho de 2023."
         title="Jogos internos IFTO"
       />
-      <View style={styled.containerInput}>
+      <View style={styled.containerInput}><FontAwesomeIcon icon={faRocket} />
         <TextInput
           placeholder="Nome do participante"
           placeholderTextColor="#6B6B6B"
@@ -161,3 +166,4 @@ const styled = StyleSheet.create({
     fontWeight: '400',
   },
 });
+  
