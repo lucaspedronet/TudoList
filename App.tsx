@@ -151,7 +151,7 @@ const styled = StyleSheet.create({
     flex: 1, alignSelf: 'stretch', borderTopWidth: 1, borderColor: '#333333', gap: 16
   },
   title3: {
-    flex: 1, color: '#FDFCFE', fontSize: 14, lineHeight: 19.6, textAlign: 'center', fontWeight: '400', top: 48
+    flex: 1, color: '#FDFCFE', fontSize: 14, lineHeight: 19.6, textAlign: 'center', fontWeight: '400', top: 64
   },
   subtitle: {
     color: '#6B6B6B', fontSize: 16, lineHeight: 18.75, fontWeight: '400'
@@ -160,7 +160,7 @@ const styled = StyleSheet.create({
     flex: 1, height: 54, borderRadius: 6, borderWidth: 1, borderColor: '#0D0D0D', backgroundColor: '#1F1E25', color: '#F2F2F2', alignItems: 'center',paddingHorizontal: 16, fontSize: 16,
   },
   list: {
-    flex: 1, height: 64, textAlignVertical: 'center', color: '#FDFCFE', fontSize: 12, fontWeight: '400'
+    flex: 1, height: 64, textAlignVertical: 'center', color: '#FDFCFE', fontSize: 12, fontWeight: '400', textDecorationLine: 'line-through'
   },
   containerinput: {
     flexDirection: 'row', alignItems: 'center', marginTop: -27, gap: 4
