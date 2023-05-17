@@ -26,6 +26,7 @@ type TarefaType = {
 export default function App() {
   const [tarefa, setTarefa] = useState('');
   const [listaDeTarefas, setListaDeTarefas] = useState<TarefaType[]>([]);
+  const [tarefasConcluidas, setTarefasConcluidas] = useState<TarefaType[]>([]);
 
   function handleSubmit() {
     if (!tarefa) {
@@ -49,7 +50,9 @@ export default function App() {
 
     setListaDeTarefas(m => [novaTarefa, ...m]);
     setTarefa('');
+    onTarefasConcluidas();
   }
+
   function handleDelete(id: string) {
     Alert.alert(
       'REMOVER',
@@ -76,11 +79,14 @@ export default function App() {
     setListaDeTarefas(props => {
       return props.map(t => (t.id === id ? {...t, feito: !t.feito} : t));
     });
+
+    onTarefasConcluidas();
   }
 
-  function onTarefaconcluidas()
-  {
-    const newTarefasConcluidas = listaDeTarefas.filter(t=>t.feito);
+  function onTarefasConcluidas() {
+    const newTarefasConcluidas = listaDeTarefas.filter(t => t.feito);
+
+    setTarefasConcluidas(newTarefasConcluidas);
   }
 
   return (
@@ -139,7 +145,9 @@ export default function App() {
                 borderRadius: 999,
                 backgroundColor: '#333333',
               }}>
-              <Text style={styled.numeroDeTarefas}>0</Text>
+              <Text style={styled.numeroDeTarefas}>
+                {tarefasConcluidas.length}
+              </Text>
             </View>
           </View>
         </View>
