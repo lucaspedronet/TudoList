@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   TextInput,
@@ -84,10 +84,11 @@ export default function App() {
   }
 
   function onTarefasConcluidas() {
-    const newTarefasConcluidas = listaDeTarefas.filter(t => t.feito);
+    const newTarefasConcluidas = listaDeTarefas.filter(t => !t.feito);
 
     setTarefasConcluidas(newTarefasConcluidas);
   }
+  useEffect
 
   return (
     <View style={styled.container}>
@@ -152,6 +153,7 @@ export default function App() {
           </View>
         </View>
         <View style={styled.contentlist}>
+          
           {listaDeTarefas.length === 0 ? (
             <View style={{flex: 1, alignItems: 'center'}}>
               <Image style={styled.clipboard} source={itemsImg.clipboard} />
