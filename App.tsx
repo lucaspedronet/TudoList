@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   TextInput,
@@ -28,6 +28,10 @@ export default function App() {
   const [listaDeTarefas, setListaDeTarefas] = useState<TarefaType[]>([]);
   const [tarefasConcluidas, setTarefasConcluidas] = useState<TarefaType[]>([]);
 
+  useEffect(() => {
+    onTarefasConcluidas();
+  }, [listaDeTarefas]);
+
   function handleSubmit() {
     if (!tarefa) {
       return Alert.alert('Por favor digite uma tarefa!');
@@ -50,7 +54,6 @@ export default function App() {
 
     setListaDeTarefas(m => [novaTarefa, ...m]);
     setTarefa('');
-    onTarefasConcluidas();
   }
 
   function handleDelete(id: string) {
@@ -76,15 +79,15 @@ export default function App() {
   }
 
   function handleToggle(id: string) {
-    setListaDeTarefas(props => {
-      return props.map(t => (t.id === id ? {...t, feito: !t.feito} : t));
+    setListaDeTarefas((props) => {
+      return props.map((t) => (t.id === id ? {...t, feito: !t.feito} : t));
     });
 
     onTarefasConcluidas();
   }
 
   function onTarefasConcluidas() {
-    const newTarefasConcluidas = listaDeTarefas.filter(t => t.feito);
+    const newTarefasConcluidas = listaDeTarefas.filter((t) => t.feito);
 
     setTarefasConcluidas(newTarefasConcluidas);
   }
@@ -203,7 +206,7 @@ export default function App() {
 
 const styled = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
   },
   header: {
     height: 143,
