@@ -27,6 +27,9 @@ export default function App() {
   const [tarefa, setTarefa] = useState('');
   const [listaDeTarefas, setListaDeTarefas] = useState<TarefaType[]>([]);
   const [tarefasConcluidas, setTarefasConcluidas] = useState<TarefaType[]>([]);
+  const [isFocused, setIsFocused] = useState(false);
+  const handleFocus = () => {setIsFocused(true)};
+  const handleBlur = () => {setIsFocused(false)};
 
   useEffect(() => {
     onTarefasConcluidas();
@@ -102,7 +105,12 @@ export default function App() {
           <TextInput
             placeholder="Adicione uma nova tarefa"
             placeholderTextColor={'#808080'}
-            style={styled.input}
+            style={[
+              styled.input,
+              isFocused ? styled.inputFocused : null,
+            ]}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             onChangeText={setTarefa}
             value={tarefa}
           />
@@ -166,7 +174,9 @@ export default function App() {
           ) : (
             listaDeTarefas.map(tarefa => {
               return (
-                <View key={tarefa.id} style={styled.containerlist}>
+                <View key={tarefa.id} style={[styled.containerlist, {
+                  borderWidth: tarefa.feito ? 0 : 1,
+                }]}>
                   <TouchableOpacity
                     style={styled.botaoFeito}
                     onPress={() => handleToggle(tarefa.id)}>
@@ -177,15 +187,10 @@ export default function App() {
                     />
                   </TouchableOpacity>
                   <View style={styled.list}>
-                    <Text
-                      style={[
-                        styled.list,
-                        {
-                          textDecorationLine: tarefa.feito
-                            ? 'line-through'
-                            : 'none',
-                        },
-                      ]}>
+                    <Text style={[styled.list, {
+                      textDecorationLine: tarefa.feito ? 'line-through' : 'none',
+                      color: tarefa.feito ? '#808080' : '#FDFCFE',
+                    },]}>
                       {tarefa.nome}
                     </Text>
                   </View>
@@ -299,6 +304,9 @@ const styled = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
   },
+  inputFocused: {
+    borderColor: '#5E60CE',
+  },
   list: {
     flex: 1,
     height: 64,
@@ -317,7 +325,6 @@ const styled = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 8,
-    borderWidth: 1,
     borderColor: '#333333',
     backgroundColor: '#262626',
   },
