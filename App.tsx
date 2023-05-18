@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   Text,
   TextInput,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  ScrollView,
 } from 'react-native';
 
 const itemsImg = {
@@ -30,10 +31,6 @@ export default function App() {
   const [isFocused, setIsFocused] = useState(false);
   const handleFocus = () => {setIsFocused(true)};
   const handleBlur = () => {setIsFocused(false)};
-
-  useEffect(() => {
-    onTarefasConcluidas();
-  }, [listaDeTarefas]);
 
   function handleSubmit() {
     if (!tarefa) {
@@ -89,11 +86,15 @@ export default function App() {
     onTarefasConcluidas();
   }
 
-  function onTarefasConcluidas() {
+  const onTarefasConcluidas = useCallback(() => {
     const newTarefasConcluidas = listaDeTarefas.filter((t) => t.feito);
 
     setTarefasConcluidas(newTarefasConcluidas);
-  }
+  }, [listaDeTarefas]);
+
+  useEffect(() => {
+    onTarefasConcluidas();
+  }, [onTarefasConcluidas]);
 
   return (
     <View style={styled.container}>
@@ -162,7 +163,7 @@ export default function App() {
             </View>
           </View>
         </View>
-        <View style={styled.contentlist}>
+        <ScrollView style={styled.contentlist}>
           {listaDeTarefas.length === 0 ? (
             <View style={{flex: 1, alignItems: 'center'}}>
               <Image style={styled.clipboard} source={itemsImg.clipboard} />
@@ -203,7 +204,7 @@ export default function App() {
               );
             })
           )}
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -326,6 +327,7 @@ const styled = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     borderColor: '#333333',
+    marginTop: 16,
     backgroundColor: '#262626',
   },
   buttonadd: {
