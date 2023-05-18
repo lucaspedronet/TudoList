@@ -23,7 +23,7 @@ export default function App() {
     if (tasks.includes(name.trim())) {
       return Alert.alert(
         'Atenção',
-        'A Tarefa: ' + name + ' já foi adicionado!',
+        'A Tarefa: ' + name + ' já foi adicionada!',
       );
     }
 
