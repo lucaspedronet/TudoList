@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Text,
   TextInput,
@@ -50,7 +50,6 @@ export default function App() {
 
     setListaDeTarefas(m => [novaTarefa, ...m]);
     setTarefa('');
-    onTarefasConcluidas();
   }
 
   function handleDelete(id: string) {
@@ -79,15 +78,17 @@ export default function App() {
     setListaDeTarefas(props => {
       return props.map(t => (t.id === id ? {...t, feito: !t.feito} : t));
     });
-
-    onTarefasConcluidas();
   }
 
-  function onTarefasConcluidas() {
+  const onTarefasConcluidas = useCallback(() => {
     const newTarefasConcluidas = listaDeTarefas.filter(t => t.feito);
 
     setTarefasConcluidas(newTarefasConcluidas);
-  }
+  }, [listaDeTarefas]);
+
+  useEffect(() => {
+    onTarefasConcluidas();
+  }, [onTarefasConcluidas]);
 
   return (
     <View style={styled.container}>
